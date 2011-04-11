@@ -1,0 +1,46 @@
+current-location - simple tool for location-dependent configuration
+-------------------------------------------------------------------
+This is a simple tool for location-dependent configuration.
+It simply runs guessnet against a defined configuration and
+then stores the result in a file.
+It features:
+- Running guessnet against a fixed configuration file and
+storing the result in a file
+- Copying location-specific files from an
+as-it-would-look-like-in-the-real-filesystem filesystem hierarchy
+- Running location-specific scrips
+
+USAGE
+-----
+This script is intended to be run by scripts that put interfaces up,
+e.g. /etc/network/if-up.d. For that reason the package already ships
+a symlink.
+
+Its however required to create a guessnet.conf, for the tool to work.
+See /etc/current-location/guessnet.conf.
+
+FILES
+-----
+The file can automatically copy files around on a location-change.
+For this to work you must have a directory tree under
+
+/etc/current-location/files/<location>
+
+For each file you want to be copied, when this location becomes active,
+you put files there with there complete location in the real filesystem, e.g.
+
+/etc/hosts > %P/etc/hosts
+
+(where %P is to be subsituted with /etc/current-location/files/<location>)
+
+SCRIPTS
+-------
+Its also possible to run scripts once a location becomes active.
+These scripts are run *after* the files have been copied around.
+Simply create a directory
+
+/etc/current-location/scripts.d/<location>
+
+and put your scripts there. They have to be executable and the
+the names must consist entirely of ASCII upper- and lower-case letters,
+ASCII digits,  ASCII  underscores,  and  ASCII minus-hyphens.

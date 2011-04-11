@@ -1,0 +1,38 @@
+#!/bin/sh
+
+GUESSNET_CONF="/etc/current-location/guessnet.conf"
+SCRIPT_BASEPATH="/etc/current-location/scripts.d"
+FILES_BASEPATH="/etc/current-location/files"
+
+copy() {
+    basedir="$1"
+    file="`echo $2|sed s#$basedir##g`"
+
+    echo -n "DIRNAME: "
+    targetdir="`dirname $file`"
+    cp ${basedir}/${file} ${targetdir}
+}
+
+set -e
+
+if [ ! -e /etc/guessnet.conf ]; then
+    exit 0
+fi
+
+CURRENT_LOCATION="$(guessnet < $GUESSNET_CONF)"
+
+# Set a umask
+umask 033
+echo $CURRENT_LOCATION > /var/lib/current-location/current_location
+
+FILES_PATH="${FILES_BASEPATH}/${CURRENT_LOCATION}"
+if [ -d $FILES_PATH ]; then
+    for file in `find $FILES_PATH -type f`; do
+        copy $FILES_PATH $file
+    done
+fi
+
+SCRIPT_PATH="${SCRIPT_BASEPATH}/$CURRENT_LOCATION"
+if [ -d $SCRIPT_PATH ]; then
+    run-parts $SCRIPT_PATH --arg=$CURRENT_LOCATION
+fi
