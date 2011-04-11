@@ -1,0 +1,22 @@
+Source: current-location
+Section: admin
+Priority: extra
+Maintainer: Patrick Schoenfeld <schoenfeld@debian.org>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
+Homepage: <insert the upstream URL, if relevant>
+
+Package: current-location
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, guessnet
+Description: simple tool for location-dependent configuration
+ This is a simple tool for location-dependent configuration.
+ It simply runs guessnet against a defined configuration and
+ then stores the result in a file.
+ It features:
+ - Running guessnet against a fixed configuration file and
+   storing the result in a file
+ - Copying location-specific files from an
+   as-it-would-look-like-in-the-real-filesystem filesystem hierarchy
+ - Running location-specific scrips
+ 
