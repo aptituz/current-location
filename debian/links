@@ -1,0 +1,2 @@
+usr/sbin/current-location etc/network/if-up.d/current_location
+usr/sbin/current-location etc/network/if-down.d/current_location 
